@@ -1,73 +1,31 @@
 // JavaScript Document
-var parlante =0;
-var parlante = 0;
-var audifono = 0;
-var finest = 0;
 
-
+var premios =[]
+var posiciones= Array(45,90,135,180,225,270,315,360);
 
 
 var db = window.openDatabase(db_name, "1.0", "Birkner Media", 200000);
 
 db.transaction(function(tx){
-	var sql = "SELECT * FROM premios where name like ('%parlante%') limit 1";	
+	var sql = "SELECT * FROM premios where number != '0'";	
 	console.log(sql);	
 	tx.executeSql(sql,
 	[], function(tx, results) {
 		console.log(results);
-		if(results.rows.length>0){
-			console.log('parlante :'+results.rows.item(0).number);
-			hola(results.rows.item(0).number);
-		}
-
-	});
-
-});
-
-db.transaction(function(tx){
-	var sql = "SELECT * FROM premios where name like ('%audifono%') limit 1";	
-	console.log(sql);	
-	tx.executeSql(sql,
-	[], function(tx, results) {
-		console.log(results);
-		if(results.rows.length>0){
-			console.log('audifono :'+results.rows.item(0).number);
-			hola1(results.rows.item(0).number);
-		}
-
-	});
-
-});
-
-db.transaction(function(tx){
-	var sql = "SELECT * FROM premios where name like ('%finest%') limit 1";	
-	console.log(sql);	
-	tx.executeSql(sql,
-	[], function(tx, results) {
-		console.log(results);
-		if(results.rows.length>0){
-			console.log('finest :'+results.rows.item(0).number);
-			hola2(results.rows.item(0).number);
-		}
-
-	});
-
-});
 		
-function hola(number){
-	parlante = number;
-	console.log(parlante);
-}
+		for (var i=0; i < results.rows.length; i++) {			
+			premios.push(results.rows.item(i));
+		}
+		
+		console.log(premios);
+		if(premios.length==0){
+			alert('No hay premios disponibles');
+		}
+		
+	});
 
-function hola1(number){
-	audifono = number;
-	console.log(audifono);
-}
+});
 
-function hola2(number){
-	finest = number;
-	console.log(finest);
-}
 
 
 function descontar(premio) {
@@ -93,11 +51,8 @@ $(function(){
                 var _this = this;
                 this.cache.wheel = $('.rueda');
                 this.cache.wheelMarker = $('.indicador');
-                //this.cache.wheelSpinBtn = $('.rueda, .boton-ruleta'); //im using the wheel as the spin button but simply change this to a button if you want.
-				this.cache.wheelSpinBtn = $('#juego .rueda'); //im using the wheel as the spin button but simply change this to a button if you want.
-
-                //mapping is backwards as wheel spins clockwise //1=win
-                //this.cache.wheelMapping = [400, 120, 80, 750, 150, 300, 60, 175, 500, 125, 75, 1000, 120, 200, 90, 600, 100, 250].reverse();
+               	this.cache.wheelSpinBtn = $('#juego .rueda'); 
+              
 				this.cache.wheelMapping = [1, 2, 3, 4, 5, 6, 7, 8].reverse();
 
 				
@@ -126,53 +81,18 @@ $(function(){
                 //disable spin button while in progress
                 this.cache.wheelSpinBtn.addClass('disabled');
 
-                /*
-                    Wheel has 10 sections.
-                    Each section is 360/10 = 36deg.
-                */
-                //var deg = 1500 + Math.round(Math.random() * 1500),
-                //duration = 6000; //optimal 6 secs
-				
-				//var premios = Array(45,90,135,180,225,270,315,360);
-				//var nombre_premios = Array('parlante','sigue disfrutando','parlante','audifonos','parlante','sigue disfrutando','parlante','audifonos');
-				var premios = Array(90,90,90,90,90,90,90,90);
-				var nombre_premios = Array('sigue disfrutando','sigue disfrutando','sigue disfrutando','sigue disfrutando','sigue disfrutando','sigue disfrutando','sigue disfrutando','sigue disfrutando');
-				
-				if(parlante>0){
-					console.log('hay parlante');
-					premios[0]=45;
-					premios[4]=225;
-					nombre_premios[0]="parlante";
-					nombre_premios[4]="parlante";
-				}
-				
-				if(audifono>0){
-					console.log('hay audifonos');
-					premios[2]=135;
-					premios[6]=315;
-					nombre_premios[2]="audifono";
-					nombre_premios[6]="audifono";
-				}
-				
-				if(finest>0){
-					console.log('hay finest');
-					premios[3]=180;
-					premios[7]=360;
-					nombre_premios[3]="finest";
-					nombre_premios[7]="finest";
-				}
-				
-				console.log(nombre_premios);
-				
+       
 				var random = Math.floor(Math.random()*premios.length);
-				var premiado = premios[random];
+				var premiado = parseInt(premios[random].deg);
 				
 				console.log('premiado:'+ premiado);
 				
-				var yapa = 20; //la yapa se usa para que quede marcado al medio
+				var yapa = 10; //la yapa se usa para que quede marcado al medio
 				var deg = 3600 + premiado + yapa,
                 duration = 6000; //optimal 6 secs
-
+				
+				console.log('deg:'+deg);
+				
                 _this.cache.wheelPos = deg;
 
                 //transition queuing
@@ -214,33 +134,21 @@ $(function(){
                     console.log('segment = ' + segment);
                     
 					//	
-					premio = nombre_premios[random];
+					premio = premios[random].name;
 						
 					
 					console.log('win = ' + win);
 					console.log('premio = ' + premio);
 					
-					if(premio!=='sigue disfrutando'){
-						if(premio === 'audífonos'){
-							descontar('audifonos');
-						}else{
-							descontar(premio);	
-						}						
-					}
+					
+					descontar(premios[random].name);	
+						
 										
 					//alert(premio);
-					$('#juego .tu_premio .box_premio').text(premio);
+					$('#juego .tu_premio .box_premio').html("<img src='img/productos/"+premio+"'/>");
 					$('#juego .tu_premio').css({'display':'block'});
 					
-					//$('input[name=premio]').val(premio);
-                   
-					/*
-					$.post("save.php", $('#form').serialize(), function( data ) {
-						$('.boton-volver').fadeIn('slow');
-					});	
-					
-					*/
-                
+					                
 				}, duration);
 
             },

@@ -12,45 +12,105 @@ var currentRow;
 // Populate the database
 //
 function populateDB(tx) {
-	tx.executeSql('CREATE TABLE IF NOT EXISTS premios (id INTEGER PRIMARY KEY AUTOINCREMENT, name, number)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS premios (id INTEGER PRIMARY KEY AUTOINCREMENT, name, number, deg)');
 	
 	//creo las tablas de configuracion
-	var sql = "SELECT * FROM premios where name like ('%parlante%') limit 1";	
+	var sql = "SELECT * FROM premios where name like ('%Galleta-Avena-Choc.png%') limit 1";	
 	console.log(sql);	
 	tx.executeSql(sql,
 	[], function(tx, results) {
 		console.log(results);
 		if(results.rows.length==0){
-			console.log('no hay parlante');
-			tx.executeSql('INSERT INTO premios (name,number) VALUES ("parlante", "0")');
+			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("Galleta-Avena-Choc.png", "0", "315")');
 		}
 
 	});
 
 
-	var sql = "SELECT * FROM premios where name like ('%finest%') limit 1";	
+	var sql = "SELECT * FROM premios where name like ('%pack2.png%') limit 1";	
 	console.log(sql);	
 	tx.executeSql(sql,
 	[], function(tx, results) {
 		console.log(results);
 		if(results.rows.length==0){
-			console.log('parlante');
-			tx.executeSql('INSERT INTO premios (name,number) VALUES ("finest", "0")');
+			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("pack2.png", "0", "270")');
 		}
 
 	});
 
-	var sql = "SELECT * FROM premios where name like ('%audifono%') limit 1";	
+	var sql = "SELECT * FROM premios where name like ('%Braunichoc.png%') limit 1";	
 	console.log(sql);	
 	tx.executeSql(sql,
 	[], function(tx, results) {
 		console.log(results);
 		if(results.rows.length==0){
-			console.log('audifono');
-			tx.executeSql('INSERT INTO premios (name,number) VALUES ("audifonos", "0")');
+			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("Braunichoc.png", "0","225")');
 		}
 
 	});
+	
+	var sql = "SELECT * FROM premios where name like ('%pack1.png%') limit 1";	
+	console.log(sql);	
+	tx.executeSql(sql,
+	[], function(tx, results) {
+		console.log(results);
+		if(results.rows.length==0){			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("pack1.png", "0", "180")');
+		}
+
+	});
+	
+	
+	
+	var sql = "SELECT * FROM premios where name like ('%Galletas-Aven-Pasa.png%') limit 1";	
+	console.log(sql);	
+	tx.executeSql(sql,
+	[], function(tx, results) {
+		console.log(results);
+		if(results.rows.length==0){			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("Galletas-Aven-Pasa.png", "0", "135")');
+		}
+
+	});
+	
+	
+	var sql = "SELECT * FROM premios where name like ('%pack3.png%') limit 1";	
+	console.log(sql);	
+	tx.executeSql(sql,
+	[], function(tx, results) {
+		console.log(results);
+		if(results.rows.length==0){			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("pack3.png", "0", "45")');
+		}
+
+	});
+	
+	var sql = "SELECT * FROM premios where name like ('%Brownie-Chip.png%') limit 1";	
+	console.log(sql);	
+	tx.executeSql(sql,
+	[], function(tx, results) {
+		console.log(results);
+		if(results.rows.length==0){			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("Brownie-Chip.png", "0", "360")');
+		}
+
+	});
+	
+	
+	var sql = "SELECT * FROM premios where name like ('%Brownie-Sin-Azucar.png%') limit 1";	
+	console.log(sql);	
+	tx.executeSql(sql,
+	[], function(tx, results) {
+		console.log(results);
+		if(results.rows.length==0){			
+			tx.executeSql('INSERT INTO premios (name,number,deg) VALUES ("Brownie-Sin-Azucar.png", "0","90")');
+		}
+
+	});
+	
 }
 
 function creaTablaRegistros(tx) {
@@ -83,8 +143,7 @@ function querySuccess(tx, results) {
 	for (var i = 0; i < len; i++) {
 		var tmpArgs=results.rows.item(i).id + ",'" + results.rows.item(i).name
 				+ "','" + results.rows.item(i).number+"'";
-		tblText +='<tr onclick="goPopup('+ tmpArgs + ');"><td>' + results.rows.item(i).id +'</td><td>'
-				+ results.rows.item(i).name +'</td><td>' + results.rows.item(i).number +'</td><td align="center"><img src="img/edit.png"></td></tr>';
+		tblText +='<tr onclick="goPopup('+ tmpArgs + ');"><td>' + results.rows.item(i).id +'</td><td><img src="img/productos/'+ results.rows.item(i).name +'" height="80"></td><td>' + results.rows.item(i).number +'</td><td align="center"><img src="img/edit.png"></td></tr>';
 	}
 	tblText +="</table>";
 	//document.getElementById("").innerHTML =tblText;

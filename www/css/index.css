@@ -308,6 +308,12 @@ a.sincronizar{
 	font-family: 'Conv_Futura Bold font',Sans-Serif;
 }
 
+#juego .tu_premio .box_premio img{
+	height: 110px;
+	width: auto;
+}
+
+
 body.setup{
   overflow: auto;
   background: url(../img/formulario.jpg) no-repeat center center fixed; 

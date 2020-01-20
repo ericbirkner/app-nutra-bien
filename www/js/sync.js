@@ -20,75 +20,25 @@ function lista_datos(tx, results) {
 	for (i; i < len; i++) {
 		
 		var obj = {
-            firstName 		: results.rows.item(i).firstName,
-            lastName 		: results.rows.item(i).lastName,
-            hash 			: '123456',
-            email 			: results.rows.item(i).email,
-            birthday 		: results.rows.item(i).birthday,
-            identifyNumber 	: results.rows.item(i).rut,
-			countryCode		: "cl",
+			'id' 	: results.rows.item(i).id,
+            'nombre' 	: results.rows.item(i).firstName,
+            'apellidos' 	: results.rows.item(i).lastName,           
+            'rut' 	: results.rows.item(i).rut,			
+			'email' 	: results.rows.item(i).email,
+            'fnac' 		: results.rows.item(i).birthday,
+            'recibe_info' 		: results.rows.item(i).recibe_info
         }
 		
-		var str = JSON.stringify(obj);
-		str = JSON.stringify(obj, null, 4); // (Optional) beautiful indented output.
-		//$('body').append(str); // Displays output using window.alert()
-		
-	
+		console.log(obj);
 		
 		$.ajax({
 		  method: "GET",
-		  url: "http://simple2.cl/simple/save.php",
-		  data: { firstName: results.rows.item(i).firstName, lastName: results.rows.item(i).lastName, email: results.rows.item(i).email, birthday: results.rows.item(i).birthday,identifyNumber: results.rows.item(i).rut}
+		  url: "https://script.google.com/macros/s/AKfycbzd8CZCkP70SgJaVTpbuPNXyLncOb3EiKs-AGH70t0hN5rweeI5/exec",
+		  data: $.param( obj )
 		})
 		.done(function( msg ) {
 			console.log( "Data Saved: " + msg );
-		});
-        	
-        console.log(obj);
-        $.ajax({
-            type: "POST",
-            url: "https://api.pernod-ricard.io/pr-latam/v1/consumers/",
-            //url : 'http://horus.dev.konabackend.com/',
-			data: JSON.stringify(obj),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-       			'X-TOUCHPOINT-TOKEN': token,
-	   			'api_key': 'q9qsv2ebnkrxky46p8wck33f'
-   			},
-            success: function(data){
-                //alert('Success');
-				console.log("Gracias por registrarte, ya puedes ingresar a Ballantine's Records");
-				exito++;  
-			},
-			failure: function(errMsg) {
-				console.log(errMsg);	
-				
-				if(errMsg.responseText=="{\"message\":\"hash invalid, the minimum length is 6\"}"){
-					mensaje = "La contraseña debe tener al menos 6 caracteres.";
-				}else if("{\"message\":\"The consumer already exists in Touchpoint\",\"code\":26}"){
-					mensaje = "Este correo ya se encuentra registrado.";
-				}else{ 
-					mensaje = "Ha ocurrido un error, por favor vuelve a intentarlo";
-				}
-					console.log(mensaje);
-					//alert(mensaje);
-			},
-            error: function(errMsg) { 		
-	            if(errMsg.responseText=="{\"message\":\"hash invalid, the minimum length is 6\"}"){
-		            mensaje = "La contraseÃ±a debe tener al menos 6 caracteres.";
-	            }else if("{\"message\":\"The consumer already exists in Touchpoint\",\"code\":26}"){
-		            mensaje = "Este correo ya se encuentra registrado.";
-	            }else{
-		            mensaje = "Ha ocurrido un error, por favor vuelve a intentarlo";
-	            }
-				console.log(mensaje);
-				//alert(mensaje);
-	            console.log(JSON.stringify(errMsg.responseText));
-				
-            }
-		}); 
-		console.log(i);
+		});      
 	   
 	}
 	
