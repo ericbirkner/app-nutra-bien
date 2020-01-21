@@ -16,12 +16,12 @@
 
 <body class="setup">
    	<a href="index.html" class="volver">&lt; Inicio</a>
-   
+
     <h1>Premios</h1>
     <!--popup edición-->
-    <div id="qrpopup" style="text-align: center" > 
-            <input type="text" id="editNameBox"><br>
-            <input type="text" id="editNumberBox"><br>
+    <div id="qrpopup" style="text-align: center" >
+            <input type="text" name="editNameBox" id="editNameBox"><br>
+            <input type="tel" name="editNumberBox" id="editNumberBox"><br>
             <!--<button onclick="goDelete()">eliminar</button>-->
             <button onclick="goEdit()">guardar</button>
             <button onclick="document.getElementById('qrpopup').style.display='none';">cerrar</button>
@@ -38,15 +38,15 @@
 				<td>Cantidad</td>
 				<td><input type="text" id="txtNumber" placeholder="Cantidad"></td>
 			</tr>
-		</table>		
-        
+		</table>
+
         <br/>
-        
-		</form>	
+
+		</form>
     </div>
     <div style="text-align: center">
         <button onclick="goInsert()">Agregar</button>
-        
+
 		<button onclick="goSearch()">Buscar</button>
         <button onclick="successCB()">Búscar</button>
 		    </div>
